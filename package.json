@@ -1,0 +1,22 @@
+{
+  "name": "whatsapp-envio",
+  "version": "0.0.0",
+  "description": "Bot de envio em massa de mensagens no whatsapp",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "cstayyab <cstayyab@gmail.com>",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "mime": "^2.4.4",
+    "node-fetch": "^2.6.0",
+    "qrcode-terminal": "^0.12.0",
+    "shortid": "^2.2.15",
+    "utf8": "^3.0.0",
+    "whatsapp-web.js": "^1.2.4"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  }
+}
