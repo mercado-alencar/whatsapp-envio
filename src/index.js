@@ -70,7 +70,26 @@ const listChats = async (msg) => {
         });
     })
 }
-
+const listNotContacts = async (msg) => {
+    const chats = await client.getChats();
+    const contacts = Promise.all(chats.map(async (c) => {
+        let contact = await c.getContact();
+        if (!contact.isGroup && !contact.isMyContact) {
+            let result = { name: contact.name || contact.pushname, number: contact.number };
+            return result;
+        }
+    }));
+    contacts.then(data => {
+        var result = data.filter(a => a && a.name);
+        client.sendMessage(msg.from, `The bot has ${contacts.length} chats not contacts.`);
+        client.sendMessage(msg.from, `the chats ${JSON.stringify(result)}`);
+        fs.writeFile("chats.json", JSON.stringify(result), function (err) {
+            if (err) {
+                console.error(err);
+            }
+        });
+    })
+}
 
 client.on('message', async msg => {
     //   console.log('MESSAGE RECEIVED', msg);
@@ -89,7 +108,10 @@ client.on('message', async msg => {
     } else if (msg.body === '!chats') {
         listChats(msg);
 
-    } else if (msg.body === '!delete') {
+    }
+    else if(msg.body === '!not') {
+            listNotContacts(msg);
+    }else if (msg.body === '!delete') {
         if (msg.hasQuotedMsg) {
             const quotedMsg = await msg.getQuotedMessage();
             if (quotedMsg.fromMe) {
